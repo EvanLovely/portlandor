@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var browserSync = require('browser-sync').create();
 var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
+var axe = require('gulp-axe-webdriver');
 var concat = require("gulp-concat");
 var minifyCss = require("gulp-minify-css");
 var uglify = require("gulp-uglify");
@@ -24,6 +25,15 @@ gulp.task('js', function() {
     return gulp.src(['node_modules/bootstrap/dist/js/bootstrap.min.js', 'node_modules/jquery/dist/jquery.min.js', 'node_modules/popper.js/dist/umd/popper.min.js'])
         .pipe(gulp.dest("js"))
         .pipe(browserSync.stream());
+});
+
+gulp.task('axe', function(done) {
+  var options = {
+    saveOutputIn: 'allHtml.json',
+    browser: 'firefox',
+    urls: ['https://alpha.portland.gov']
+  };
+  return axe(options, done);
 });
 
 // Static Server + watching scss/html files
