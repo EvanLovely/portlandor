@@ -11,8 +11,88 @@ dependencies:
     - field.field.group.project.field_summary
     - field.field.group.project.field_topics
     - group.type.project
+    - views.view.group_news
   module:
     - datetime_range
+    - layout_builder
+    - layout_discovery
+    - views
+third_party_settings:
+  layout_builder:
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings: {  }
+        components:
+          f8f7b6dc-1554-4603-9ccd-c461b58fec90:
+            uuid: f8f7b6dc-1554-4603-9ccd-c461b58fec90
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:group:project:field_parent_group'
+              formatter:
+                label: inline
+                settings:
+                  link: true
+                third_party_settings: {  }
+                type: entity_reference_label
+            additional: {  }
+            weight: 0
+          5fa6649a-03cc-4094-8f29-e4f86398d4d9:
+            uuid: 5fa6649a-03cc-4094-8f29-e4f86398d4d9
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:group:project:field_summary'
+              formatter:
+                label: hidden
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+                type: string
+            additional: {  }
+            weight: 1
+          33652942-ac27-48e6-9232-024c79b278f0:
+            uuid: 33652942-ac27-48e6-9232-024c79b278f0
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:group:project:field_date_time_range'
+              formatter:
+                type: daterange_default
+                label: above
+                settings:
+                  timezone_override: ''
+                  format_type: month_day_year
+                  separator: ' to '
+                third_party_settings: {  }
+            additional: {  }
+            weight: 2
+          c4d8d371-4dce-4c38-9337-df13300cb6f3:
+            uuid: c4d8d371-4dce-4c38-9337-df13300cb6f3
+            region: content
+            configuration:
+              id: 'views_block:group_news-block_1'
+              label: ''
+              provider: views
+              label_display: visible
+              views_label: ''
+              items_per_page: none
+              context_mapping: {  }
+            additional: {  }
+            weight: 3
+      -
+        layout_id: layout_onecol
+        layout_settings: {  }
+        components: {  }
+    allow_custom: false
+    enabled: true
 id: group.project.default
 targetEntityType: group
 bundle: project

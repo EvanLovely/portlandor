@@ -9,13 +9,16 @@ dependencies:
     - field.field.node.news.field_feature_until
     - field.field.node.news.field_featured_image
     - field.field.node.news.field_legacy_path
+    - field.field.node.news.field_news_type
     - field.field.node.news.field_published_on
     - field.field.node.news.field_summary
     - field.field.node.news.field_topics
     - node.type.news
+    - responsive_image.styles.paragraph_image
   module:
-    - entity_reference_revisions
+    - layout_builder
     - panelizer
+    - responsive_image
     - user
 third_party_settings:
   panelizer:
@@ -23,22 +26,32 @@ third_party_settings:
     custom: false
     allow: false
     default: default
+  layout_builder:
+    sections: {  }
 id: node.news.featured
 targetEntityType: node
 bundle: news
 mode: featured
 content:
-  field_body:
-    weight: 1
+  field_featured_image:
+    type: responsive_image
+    weight: 2
+    region: content
     label: hidden
     settings:
-      view_mode: default
-      link: ''
+      responsive_image_style: paragraph_image
+      image_link: content
     third_party_settings: {  }
-    type: entity_reference_revisions_entity_view
-    region: content
-  field_summary:
+  field_news_type:
+    type: entity_reference_label
     weight: 0
+    region: content
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+  field_summary:
+    weight: 1
     label: hidden
     settings:
       link_to_entity: false
@@ -75,9 +88,9 @@ content:
     region: content
 hidden:
   content_moderation_control: true
+  field_body: true
   field_feature_this_content: true
   field_feature_until: true
-  field_featured_image: true
   field_legacy_path: true
   field_published_on: true
   field_topics: true

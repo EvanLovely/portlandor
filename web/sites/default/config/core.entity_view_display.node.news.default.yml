@@ -8,12 +8,14 @@ dependencies:
     - field.field.node.news.field_feature_until
     - field.field.node.news.field_featured_image
     - field.field.node.news.field_legacy_path
+    - field.field.node.news.field_news_type
     - field.field.node.news.field_published_on
     - field.field.node.news.field_summary
     - field.field.node.news.field_topics
     - node.type.news
   module:
     - entity_reference_revisions
+    - layout_builder
     - panelizer
     - user
 third_party_settings:
@@ -22,6 +24,8 @@ third_party_settings:
     custom: false
     allow: false
     default: default
+  layout_builder:
+    sections: {  }
 id: node.news.default
 targetEntityType: node
 bundle: news
@@ -50,6 +54,7 @@ hidden:
   field_feature_until: true
   field_featured_image: true
   field_legacy_path: true
+  field_news_type: true
   field_published_on: true
   field_topics: true
   links: true

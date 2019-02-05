@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.node.featured
     - core.entity_view_mode.node.teaser
     - field.storage.node.field_body
   module:
@@ -82,7 +83,7 @@ display:
         type: 'entity:node'
         options:
           relationship: none
-          view_mode: teaser
+          view_mode: featured
       fields:
         title:
           id: title
@@ -532,6 +533,8 @@ display:
         fields: false
         header: false
         pager: false
+        style: false
+        row: false
       arguments:
         gid:
           id: gid
@@ -836,6 +839,17 @@ display:
         options:
           items_per_page: 6
           offset: 0
+      style:
+        type: default
+        options:
+          row_class: ''
+          default_row_class: false
+          uses_fields: false
+      row:
+        type: 'entity:node'
+        options:
+          relationship: none
+          view_mode: teaser
     cache_metadata:
       max-age: -1
       contexts:
