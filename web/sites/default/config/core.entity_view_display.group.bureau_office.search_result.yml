@@ -17,8 +17,6 @@ dependencies:
     - field.field.group.bureau_office.field_summary
     - field.field.group.bureau_office.field_topics
     - group.type.bureau_office
-  module:
-    - ds
 id: group.bureau_office.search_result
 targetEntityType: group
 bundle: bureau_office
@@ -31,35 +29,7 @@ content:
     label: hidden
     settings:
       link_to_entity: false
-    third_party_settings:
-      ds:
-        ft:
-          id: expert
-          settings:
-            lb: ''
-            prefix: ''
-            lbw-el: ''
-            lbw-cl: ''
-            lbw-at: ''
-            ow-el: ''
-            ow-cl: ''
-            ow-at: ''
-            fis-el: ''
-            fis-cl: ''
-            fis-at: ''
-            fi: true
-            fi-el: p
-            fi-cl: ''
-            fi-at: ''
-            suffix: ''
-            lbw: false
-            lb-col: false
-            ow: false
-            ow-def-at: false
-            ow-def-cl: false
-            fis: false
-            fis-def-at: false
-            fi-def-at: false
+    third_party_settings: {  }
   label:
     label: hidden
     type: string
@@ -67,35 +37,7 @@ content:
     region: content
     settings:
       link_to_entity: true
-    third_party_settings:
-      ds:
-        ft:
-          id: expert
-          settings:
-            lb: ''
-            prefix: ''
-            lbw-el: ''
-            lbw-cl: ''
-            lbw-at: ''
-            ow-el: ''
-            ow-cl: ''
-            ow-at: ''
-            fis-el: ''
-            fis-cl: ''
-            fis-at: ''
-            fi: true
-            fi-el: h3
-            fi-cl: ''
-            fi-at: ''
-            suffix: ''
-            lbw: false
-            lb-col: false
-            ow: false
-            ow-def-at: false
-            ow-def-cl: false
-            fis: false
-            fis-def-at: false
-            fi-def-at: false
+    third_party_settings: {  }
 hidden:
   changed: true
   created: true

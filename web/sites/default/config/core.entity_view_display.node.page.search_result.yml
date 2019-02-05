@@ -13,7 +13,6 @@ dependencies:
     - field.field.node.page.field_topics
     - node.type.page
   module:
-    - ds
     - panelizer
     - user
 third_party_settings:
@@ -32,14 +31,7 @@ content:
     label: hidden
     settings:
       link: false
-    third_party_settings:
-      ds:
-        ft:
-          id: default
-          settings:
-            lb: ''
-            lb-col: false
-            classes: {  }
+    third_party_settings: {  }
     type: entity_reference_label
     region: content
   field_summary:
@@ -47,14 +39,7 @@ content:
     label: hidden
     settings:
       link_to_entity: false
-    third_party_settings:
-      ds:
-        ft:
-          id: default
-          settings:
-            lb: ''
-            lb-col: false
-            classes: {  }
+    third_party_settings: {  }
     type: string
     region: content
 hidden:

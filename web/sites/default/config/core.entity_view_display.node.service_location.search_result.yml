@@ -11,7 +11,6 @@ dependencies:
     - field.field.node.service_location.field_summary
     - node.type.service_location
   module:
-    - ds
     - panelizer
     - user
 third_party_settings:
@@ -20,66 +19,6 @@ third_party_settings:
     custom: false
     allow: false
     default: default
-  ds:
-    layout:
-      id: layout_onecol
-      library: layout_discovery/onecol
-      disable_css: false
-      entity_classes: all_classes
-      settings: {  }
-    regions:
-      content:
-        - 'bundle_field:node'
-        - node_title
-        - field_summary
-    fields:
-      'bundle_field:node':
-        plugin_id: 'bundle_field:node'
-        weight: 0
-        label: hidden
-        formatter: default
-        ft:
-          id: expert
-          settings:
-            lb: ''
-            prefix: ''
-            lbw-el: ''
-            lbw-cl: ''
-            lbw-at: ''
-            ow-el: ''
-            ow-cl: ''
-            ow-at: ''
-            fis-el: ''
-            fis-cl: ''
-            fis-at: ''
-            fi: true
-            fi-el: ''
-            fi-cl: 'text-muted text-uppercase'
-            fi-at: ''
-            suffix: ''
-            lbw: false
-            lb-col: false
-            ow: false
-            ow-def-at: false
-            ow-def-cl: false
-            fis: false
-            fis-def-at: false
-            fi-def-at: false
-      node_title:
-        plugin_id: node_title
-        weight: 1
-        label: hidden
-        formatter: default
-        settings:
-          link: true
-          wrapper: h3
-          class: ''
-        ft:
-          id: default
-          settings:
-            lb: ''
-            lb-col: false
-            classes: {  }
 id: node.service_location.search_result
 targetEntityType: node
 bundle: service_location
@@ -93,11 +32,6 @@ content:
     third_party_settings: {  }
     type: string
     region: content
-  service_location_directions_link_entity_view_1:
-    weight: 10
-    settings: {  }
-    third_party_settings: {  }
-    region: content
 hidden:
   content_moderation_control: true
   field_building: true
@@ -106,3 +40,4 @@ hidden:
   field_open_hours: true
   links: true
   scheduled_publication: true
+  service_location_directions_link_entity_view_1: true

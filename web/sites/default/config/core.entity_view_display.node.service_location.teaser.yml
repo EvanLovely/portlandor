@@ -11,7 +11,6 @@ dependencies:
     - field.field.node.service_location.field_summary
     - node.type.service_location
   module:
-    - ds
     - panelizer
     - user
 third_party_settings:
@@ -20,37 +19,6 @@ third_party_settings:
     custom: false
     allow: false
     default: default
-  ds:
-    layout:
-      id: layout_onecol
-      library: layout_discovery/onecol
-      disable_css: false
-      entity_classes: all_classes
-      settings: {  }
-    regions:
-      content:
-        - node_title
-        - field_summary
-        - field_building
-        - field_floor
-        - field_open_hours
-        - service_location_directions_link_entity_view_1
-    fields:
-      node_title:
-        plugin_id: node_title
-        weight: 0
-        label: hidden
-        formatter: default
-        settings:
-          wrapper: h3
-          class: ''
-          link: false
-        ft:
-          id: default
-          settings:
-            lb: ''
-            lb-col: false
-            classes: {  }
 id: node.service_location.teaser
 targetEntityType: node
 bundle: service_location

@@ -5,12 +5,15 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.news.field_body
+    - field.field.node.news.field_feature_this_content
+    - field.field.node.news.field_feature_until
+    - field.field.node.news.field_featured_image
     - field.field.node.news.field_legacy_path
+    - field.field.node.news.field_published_on
     - field.field.node.news.field_summary
     - field.field.node.news.field_topics
     - node.type.news
   module:
-    - ds
     - panelizer
     - user
 third_party_settings:
@@ -19,45 +22,6 @@ third_party_settings:
     custom: false
     allow: false
     default: default
-  ds:
-    layout:
-      id: layout_onecol
-      library: layout_discovery/onecol
-      disable_css: false
-      entity_classes: all_classes
-      settings: {  }
-    regions:
-      content:
-        - node_title
-        - node_changed_date
-        - field_summary
-    fields:
-      node_changed_date:
-        plugin_id: node_changed_date
-        weight: 1
-        label: inline
-        formatter: ds_post_date_medium
-        ft:
-          id: default
-          settings:
-            lb: Updated
-            lb-col: false
-            classes: {  }
-      node_title:
-        plugin_id: node_title
-        weight: 0
-        label: hidden
-        formatter: default
-        settings:
-          link: true
-          wrapper: h2
-          class: ''
-        ft:
-          id: default
-          settings:
-            lb: ''
-            lb-col: false
-            classes: {  }
 id: node.news.teaser
 targetEntityType: node
 bundle: news
@@ -73,35 +37,18 @@ content:
     third_party_settings:
       ds:
         ft:
-          id: expert
+          id: default
           settings:
             lb: ''
-            prefix: ''
-            lbw-el: ''
-            lbw-cl: ''
-            lbw-at: ''
-            ow-el: ''
-            ow-cl: ''
-            ow-at: ''
-            fis-el: ''
-            fis-cl: ''
-            fis-at: ''
-            fi: true
-            fi-el: p
-            fi-cl: ''
-            fi-at: ''
-            suffix: ''
-            lbw: false
             lb-col: false
-            ow: false
-            ow-def-at: false
-            ow-def-cl: false
-            fis: false
-            fis-def-at: false
-            fi-def-at: false
+            classes: {  }
 hidden:
   content_moderation_control: true
   field_body: true
+  field_feature_this_content: true
+  field_feature_until: true
+  field_featured_image: true
   field_legacy_path: true
+  field_published_on: true
   field_topics: true
   links: true

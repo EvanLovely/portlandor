@@ -9,7 +9,6 @@ dependencies:
     - field.field.node.information.field_summary
     - node.type.information
   module:
-    - ds
     - panelizer
     - user
 third_party_settings:
@@ -18,33 +17,6 @@ third_party_settings:
     custom: false
     allow: false
     default: default
-  ds:
-    layout:
-      id: layout_onecol
-      library: layout_discovery/onecol
-      disable_css: false
-      entity_classes: all_classes
-      settings: {  }
-    regions:
-      content:
-        - node_title
-        - field_summary
-    fields:
-      node_title:
-        plugin_id: node_title
-        weight: 0
-        label: hidden
-        formatter: default
-        settings:
-          link: true
-          wrapper: h2
-          class: ''
-        ft:
-          id: default
-          settings:
-            lb: ''
-            lb-col: false
-            classes: {  }
 id: node.information.teaser
 targetEntityType: node
 bundle: information
@@ -60,7 +32,7 @@ content:
     third_party_settings:
       ds:
         ft:
-          id: expert
+          id: default
           settings:
             lb: ''
             prefix: ''
@@ -73,19 +45,19 @@ content:
             fis-el: ''
             fis-cl: ''
             fis-at: ''
-            fi: true
+            fi: '1'
             fi-el: p
             fi-cl: ''
             fi-at: ''
             suffix: ''
-            lbw: false
+            lbw: 0
             lb-col: false
-            ow: false
-            ow-def-at: false
-            ow-def-cl: false
-            fis: false
-            fis-def-at: false
-            fi-def-at: false
+            ow: 0
+            ow-def-at: 0
+            ow-def-cl: 0
+            fis: 0
+            fis-def-at: 0
+            fi-def-at: 0
 hidden:
   content_moderation_control: true
   field_body: true

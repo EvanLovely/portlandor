@@ -5,8 +5,6 @@ dependencies:
   config:
     - field.field.paragraph.building.field_building
     - paragraphs.paragraphs_type.building
-  module:
-    - ds
 id: paragraph.building.default
 targetEntityType: paragraph
 bundle: building
@@ -18,14 +16,7 @@ content:
     settings:
       view_mode: address
       link: false
-    third_party_settings:
-      ds:
-        ft:
-          id: default
-          settings:
-            lb: ''
-            lb-col: false
-            classes: {  }
+    third_party_settings: {  }
     type: entity_reference_entity_view
     region: content
 hidden: {  }

@@ -5,23 +5,9 @@ dependencies:
   config:
     - core.entity_view_mode.user.full
   module:
-    - ds
     - panelizer
     - user
 third_party_settings:
-  ds:
-    layout:
-      id: layout_onecol
-      library: layout_discovery/onecol
-      disable_css: false
-      entity_classes: all_classes
-      settings: {  }
-    regions:
-      content:
-        - member_for
-        - user_assigned_to_review_entity_view_1
-        - user_assigned_to_review_entity_view_2
-        - masquerade
   panelizer:
     enable: false
     custom: false

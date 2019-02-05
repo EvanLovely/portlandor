@@ -10,7 +10,6 @@ dependencies:
     - image.style.medium
     - media.type.audio
   module:
-    - ds
     - image
 id: media.audio.thumbnail
 targetEntityType: media
@@ -30,14 +29,7 @@ content:
       image_style: medium
       image_link: ''
     region: content
-    third_party_settings:
-      ds:
-        ft:
-          id: default
-          settings:
-            lb: ''
-            lb-col: false
-            classes: {  }
+    third_party_settings: {  }
 hidden:
   created: true
   field_media_in_library: true

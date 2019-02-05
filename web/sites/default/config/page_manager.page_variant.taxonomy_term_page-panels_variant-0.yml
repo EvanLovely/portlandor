@@ -21,7 +21,7 @@ variant_settings:
       label: 'Entity view (Taxonomy term)'
       provider: ctools
       label_display: '0'
-      view_mode: default
+      view_mode: full
       region: content
       weight: -1
       uuid: 06bc7bad-b281-404d-b7b1-a682216fb40b

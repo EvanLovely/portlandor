@@ -12,7 +12,6 @@ dependencies:
     - field.field.node.page.field_topics
     - node.type.page
   module:
-    - ds
     - panelizer
     - user
 third_party_settings:
@@ -21,18 +20,6 @@ third_party_settings:
     custom: false
     allow: false
     default: default
-  ds:
-    layout:
-      id: layout_onecol
-      library: layout_discovery/onecol
-      disable_css: false
-      entity_classes: all_classes
-      settings: {  }
-    regions:
-      content:
-        - field_page_type
-        - field_summary
-        - field_related_content
 id: node.page.default
 targetEntityType: node
 bundle: page
@@ -46,32 +33,11 @@ content:
     third_party_settings:
       ds:
         ft:
-          id: expert
+          id: default
           settings:
             lb: ''
-            prefix: ''
-            lbw-el: ''
-            lbw-cl: ''
-            lbw-at: ''
-            ow-el: ''
-            ow-cl: ''
-            ow-at: ''
-            fis-el: ''
-            fis-cl: ''
-            fis-at: ''
-            fi: true
-            fi-el: div
-            fi-cl: 'badge badge-pill badge-light mb-1 order-1 align-self-start'
-            fi-at: ''
-            suffix: ''
-            lbw: false
             lb-col: false
-            ow: false
-            ow-def-at: false
-            ow-def-cl: false
-            fis: false
-            fis-def-at: false
-            fi-def-at: false
+            classes: {  }
     type: entity_reference_label
     region: content
   field_related_content:
@@ -90,32 +56,11 @@ content:
     third_party_settings:
       ds:
         ft:
-          id: expert
+          id: default
           settings:
             lb: ''
-            prefix: ''
-            lbw-el: ''
-            lbw-cl: ''
-            lbw-at: ''
-            ow-el: ''
-            ow-cl: ''
-            ow-at: ''
-            fis-el: ''
-            fis-cl: ''
-            fis-at: ''
-            fi: true
-            fi-el: p
-            fi-cl: lead
-            fi-at: ''
-            suffix: ''
-            lbw: false
             lb-col: false
-            ow: false
-            ow-def-at: false
-            ow-def-cl: false
-            fis: false
-            fis-def-at: false
-            fi-def-at: false
+            classes: {  }
     type: string
     region: content
 hidden:

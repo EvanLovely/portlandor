@@ -10,7 +10,6 @@ dependencies:
     - field.field.media.document.field_summary
     - media.type.document
   module:
-    - ds
     - file
 _core:
   default_config_hash: 4tgcXj_iKv9Fw3xmONUfCHKqO7OeOa11qVesruN4k4k
@@ -27,28 +26,14 @@ content:
       date_format: long
       custom_date_format: ''
       timezone: ''
-    third_party_settings:
-      ds:
-        ft:
-          id: default
-          settings:
-            lb: ''
-            lb-col: false
-            classes: {  }
+    third_party_settings: {  }
     region: content
   field_document:
     weight: 2
     label: hidden
     settings:
       use_description_as_link_text: false
-    third_party_settings:
-      ds:
-        ft:
-          id: default
-          settings:
-            lb: ''
-            lb-col: false
-            classes: {  }
+    third_party_settings: {  }
     type: file_default
     region: content
   field_summary:

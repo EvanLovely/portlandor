@@ -8,8 +8,10 @@ dependencies:
     - field.field.group.bureau_office.field_audience
     - field.field.group.bureau_office.field_building
     - field.field.group.bureau_office.field_email
+    - field.field.group.bureau_office.field_legacy_path
     - field.field.group.bureau_office.field_logo
     - field.field.group.bureau_office.field_official_organization_name
+    - field.field.group.bureau_office.field_parent_group
     - field.field.group.bureau_office.field_phone
     - field.field.group.bureau_office.field_shortname_or_acronym
     - field.field.group.bureau_office.field_summary
@@ -17,21 +19,6 @@ dependencies:
     - group.type.bureau_office
   module:
     - address
-    - ds
-third_party_settings:
-  ds:
-    layout:
-      id: layout_onecol
-      library: layout_discovery/onecol
-      disable_css: false
-      entity_classes: all_classes
-      settings: {  }
-    regions:
-      content:
-        - field_official_organization_name
-        - field_address
-        - field_email
-        - field_phone
 id: group.bureau_office.contact_information
 targetEntityType: group
 bundle: bureau_office
@@ -43,28 +30,14 @@ content:
     region: content
     label: hidden
     settings: {  }
-    third_party_settings:
-      ds:
-        ft:
-          id: default
-          settings:
-            lb: ''
-            lb-col: false
-            classes: {  }
+    third_party_settings: {  }
   field_email:
     type: email_mailto
     weight: 2
     region: content
     label: hidden
     settings: {  }
-    third_party_settings:
-      ds:
-        ft:
-          id: default
-          settings:
-            lb: ''
-            lb-col: false
-            classes: {  }
+    third_party_settings: {  }
   field_official_organization_name:
     type: string
     weight: 0
@@ -72,14 +45,7 @@ content:
     label: hidden
     settings:
       link_to_entity: true
-    third_party_settings:
-      ds:
-        ft:
-          id: default
-          settings:
-            lb: ''
-            lb-col: false
-            classes: {  }
+    third_party_settings: {  }
   field_phone:
     type: string
     weight: 3
@@ -87,14 +53,7 @@ content:
     label: hidden
     settings:
       link_to_entity: false
-    third_party_settings:
-      ds:
-        ft:
-          id: default
-          settings:
-            lb: ''
-            lb-col: false
-            classes: {  }
+    third_party_settings: {  }
 hidden:
   changed: true
   created: true

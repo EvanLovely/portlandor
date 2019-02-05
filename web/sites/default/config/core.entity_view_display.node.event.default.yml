@@ -15,7 +15,6 @@ dependencies:
     - node.type.event
   module:
     - datetime
-    - ds
     - entity_reference_revisions
     - panelizer
     - time_field
@@ -26,23 +25,6 @@ third_party_settings:
     custom: false
     allow: false
     default: default
-  ds:
-    layout:
-      id: layout_onecol
-      library: layout_discovery/onecol
-      disable_css: false
-      entity_classes: all_classes
-      settings: {  }
-    regions:
-      content:
-        - field_all_day
-        - field_summary
-        - field_start_date
-        - field_start_time
-        - field_end_date
-        - field_end_time
-        - field_event_location
-        - field_body
 id: node.event.default
 targetEntityType: node
 bundle: event
@@ -55,8 +37,8 @@ content:
     label: above
     settings:
       format: default
-      format_custom_false: ''
       format_custom_true: ''
+      format_custom_false: ''
     third_party_settings: {  }
   field_body:
     weight: 7
@@ -91,15 +73,7 @@ content:
     settings:
       view_mode: default
       link: ''
-    third_party_settings:
-      ds:
-        ds_limit: ''
-        ft:
-          id: default
-          settings:
-            lb: ''
-            lb-col: false
-            classes: {  }
+    third_party_settings: {  }
     region: content
   field_start_date:
     weight: 2
@@ -123,35 +97,7 @@ content:
     label: hidden
     settings:
       link_to_entity: false
-    third_party_settings:
-      ds:
-        ft:
-          id: expert
-          settings:
-            lb: ''
-            prefix: ''
-            lbw-el: ''
-            lbw-cl: ''
-            lbw-at: ''
-            ow-el: ''
-            ow-cl: ''
-            ow-at: ''
-            fis: true
-            fis-el: p
-            fis-cl: lead
-            fis-at: ''
-            fi-el: ''
-            fi-cl: ''
-            fi-at: ''
-            suffix: ''
-            lbw: false
-            lb-col: false
-            ow: false
-            ow-def-at: false
-            ow-def-cl: false
-            fis-def-at: false
-            fi: false
-            fi-def-at: false
+    third_party_settings: {  }
     type: string
     region: content
 hidden:

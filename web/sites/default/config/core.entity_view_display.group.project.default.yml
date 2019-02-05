@@ -13,20 +13,6 @@ dependencies:
     - group.type.project
   module:
     - datetime_range
-    - ds
-third_party_settings:
-  ds:
-    layout:
-      id: layout_onecol
-      library: layout_discovery/onecol
-      disable_css: false
-      entity_classes: all_classes
-      settings: {  }
-    regions:
-      content:
-        - field_parent_group
-        - field_summary
-        - field_date_time_range
 id: group.project.default
 targetEntityType: group
 bundle: project
@@ -41,27 +27,13 @@ content:
       timezone_override: ''
       format_type: month_day_year
       separator: ' to '
-    third_party_settings:
-      ds:
-        ft:
-          id: default
-          settings:
-            lb: ''
-            lb-col: false
-            classes: {  }
+    third_party_settings: {  }
   field_parent_group:
     weight: 0
     label: inline
     settings:
       link: true
-    third_party_settings:
-      ds:
-        ft:
-          id: default
-          settings:
-            lb: 'Part of'
-            lb-col: false
-            classes: {  }
+    third_party_settings: {  }
     type: entity_reference_label
     region: content
   field_summary:
@@ -69,35 +41,7 @@ content:
     label: hidden
     settings:
       link_to_entity: false
-    third_party_settings:
-      ds:
-        ft:
-          id: expert
-          settings:
-            lb: ''
-            prefix: ''
-            lbw-el: ''
-            lbw-cl: ''
-            lbw-at: ''
-            ow-el: ''
-            ow-cl: ''
-            ow-at: ''
-            fis-el: ''
-            fis-cl: ''
-            fis-at: ''
-            fi: true
-            fi-el: p
-            fi-cl: lead
-            fi-at: ''
-            suffix: ''
-            lbw: false
-            lb-col: false
-            ow: false
-            ow-def-at: false
-            ow-def-cl: false
-            fis: false
-            fis-def-at: false
-            fi-def-at: false
+    third_party_settings: {  }
     type: string
     region: content
 hidden:

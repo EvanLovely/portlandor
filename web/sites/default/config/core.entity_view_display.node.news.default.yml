@@ -13,7 +13,6 @@ dependencies:
     - field.field.node.news.field_topics
     - node.type.news
   module:
-    - ds
     - entity_reference_revisions
     - panelizer
     - user
@@ -23,17 +22,6 @@ third_party_settings:
     custom: false
     allow: false
     default: default
-  ds:
-    layout:
-      id: layout_onecol
-      library: layout_discovery/onecol
-      disable_css: false
-      entity_classes: all_classes
-      settings: {  }
-    regions:
-      content:
-        - field_summary
-        - field_body
 id: node.news.default
 targetEntityType: node
 bundle: news
@@ -45,15 +33,7 @@ content:
     settings:
       view_mode: default
       link: ''
-    third_party_settings:
-      ds:
-        ds_limit: ''
-        ft:
-          id: default
-          settings:
-            lb: ''
-            lb-col: false
-            classes: {  }
+    third_party_settings: {  }
     type: entity_reference_revisions_entity_view
     region: content
   field_summary:
@@ -61,35 +41,7 @@ content:
     label: hidden
     settings:
       link_to_entity: false
-    third_party_settings:
-      ds:
-        ft:
-          id: expert
-          settings:
-            lb: ''
-            prefix: ''
-            lbw-el: ''
-            lbw-cl: ''
-            lbw-at: ''
-            ow-el: ''
-            ow-cl: ''
-            ow-at: ''
-            fis: true
-            fis-el: p
-            fis-cl: lead
-            fis-at: ''
-            fi-el: ''
-            fi-cl: ''
-            fi-at: ''
-            suffix: ''
-            lbw: false
-            lb-col: false
-            ow: false
-            ow-def-at: false
-            ow-def-cl: false
-            fis-def-at: false
-            fi: false
-            fi-def-at: false
+    third_party_settings: {  }
     type: string
     region: content
 hidden:

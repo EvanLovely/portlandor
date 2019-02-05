@@ -459,6 +459,7 @@ display:
       defaults:
         filters: false
         filter_groups: false
+        header: false
       filter_groups:
         operator: AND
         groups:
@@ -469,6 +470,8 @@ display:
         options:
           items_per_page: 6
           offset: 0
+      header: {  }
+      inherit_exposed_filters: true
     cache_metadata:
       max-age: -1
       contexts:
@@ -827,17 +830,7 @@ display:
           separator: ''
           field_api_classes: false
           plugin_id: field
-      header:
-        result:
-          id: result
-          table: views
-          field: result
-          relationship: none
-          group_type: group
-          admin_label: ''
-          empty: false
-          content: '@total news and notices'
-          plugin_id: result
+      header: {  }
       pager:
         type: some
         options:
