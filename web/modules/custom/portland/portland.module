@@ -7,6 +7,7 @@ use Drupal\group\Entity\GroupContentTypeInterface;
 use Drupal\pathauto\Form\PathautoBulkUpdateForm;
 use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\group\Entity\GroupContent;
+use Drupal\Core\Form\FormStateInterface;
 
 // This file concerns itself with setting up tokens with hooks
 include 'portland.tokens.inc';
@@ -31,6 +32,19 @@ const GROUP_CONTENT_TYPE_PLURAL = [
 ];
 
 const ALERTS_COUNTER_CACHE_KEY = 'portland.active.alerts';
+
+// Get the parent group IDs of an entity
+// https://drupal.stackexchange.com/questions/238755/how-to-get-group-ids-by-ids-of-elements-of-group-content
+function getGroupIdsByEntity($entity) {
+  $group_ids = [];
+
+  $group_contents = GroupContent::loadByEntity($entity);
+  foreach ($group_contents as $group_content) {
+    $group_ids[] = $group_content->getGroup()->id();
+  }
+
+  return $group_ids;
+}
 
 function createAliasForGroupContent($grp, $contentType, $lang) {
   // When a content type is not installed, $pluginType->getPluginDefinition()['entity_bundle'] returns false. Otherwise it's the string like "news".
@@ -330,6 +344,38 @@ function portland_node_presave($node) {
             $node->set('field_end_date', NULL);
         }
     }
+
+    // Check the original field value
+    $original_group = ($node->original->field_group->entity == NULL) ? NULL : $node->original->field_group->entity->id();
+    // Chck the group content table
+    $groupIDs = getGroupIdsByEntity($node->original);
+    // If the original field value is not set but we found the node in group content table, set the group ID.
+    if($original_group == NULL && count($groupIDs) > 0 ) {
+        $original_group = getGroupIdsByEntity($node->original)[0];
+    }
+
+    // If the node was not in a group and is in a group now, add it.
+    if($original_group == NULL && $node->field_group->entity != NULL) {
+        $node->field_group->entity->addContent($node, 'group_node:'.$node->bundle());
+    }
+    else if( $original_group != $node->field_group->entity->id() ){
+        // delete from the old group
+        if( $original_group != NULL ) {
+            $group_contents = \Drupal::entityTypeManager()
+                            ->getStorage('group_content')
+                            ->loadByProperties([ 
+                                'entity_id' => $node->id(),
+                                'gid' => $original_group,
+                            ]);
+            
+            foreach ($group_contents as $item) {
+                $item->delete();
+            }
+        }
+
+        // Get the group entity
+        $node->field_group->entity->addContent($node, 'group_node:'.$node->bundle());
+    }
 }
 
 /**
@@ -346,6 +392,39 @@ function portland_form_views_exposed_form_alter(&$form, &$form_state) {
       $form['actions']['reset']['#attributes'] = array('onclick' => 'javascript:jQuery(this.form).clearForm();jQuery(this.form).find(\'#' . $submit_btn_id . '\').trigger(\'click\');return false;');
     }
   }
+
+/**
+ * Implements hook_form_alter().
+ */
+//Idea borrowed from https://julian.pustkuchen.com/node/659
+function portland_form_alter(&$form, &$form_state, $form_id) {
+
+    if($form_id == 'node_city_service_edit_form') {
+        $user_roles = \Drupal::currentUser()->getRoles();
+        // Only filter the group list if it's NOT a site admin
+        if(!in_array("administrator", $user_roles)) {
+            // GroupMembership[]
+            $loader = \Drupal::service('group.membership_loader');
+            $group_memberships = $loader->loadByUser();
+            $options = ['_none' => '- None -'];
+            foreach( $group_memberships as $group_membership ) {
+                $group = $group_membership->getGroup();
+                $options[$group->id->value] = $group->label->value;
+            }
+            $form["field_group"]["widget"]["#options"] = $options;
+        }
+
+        // Set the default value as the node's current group
+        $node = $form_state->getFormObject()->getEntity();
+        $groupIDs = getGroupIdsByEntity($node);
+        if( count($groupIDs) == 0 ) {
+            $form["field_group"]["widget"]['#default_value'] = '_none';    
+        }
+        else {
+            $form["field_group"]["widget"]['#default_value'] = $groupIDs[0]; // assume only one parent group
+        }
+    }
+}
 
 /*
  * Implements hook_preprocess_HOOK().
