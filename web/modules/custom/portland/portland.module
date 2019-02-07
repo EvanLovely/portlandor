@@ -344,38 +344,6 @@ function portland_node_presave($node) {
             $node->set('field_end_date', NULL);
         }
     }
-
-    // Check the original field value
-    $original_group = ($node->original->field_group->entity == NULL) ? NULL : $node->original->field_group->entity->id();
-    // Chck the group content table
-    $groupIDs = getGroupIdsByEntity($node->original);
-    // If the original field value is not set but we found the node in group content table, set the group ID.
-    if($original_group == NULL && count($groupIDs) > 0 ) {
-        $original_group = getGroupIdsByEntity($node->original)[0];
-    }
-
-    // If the node was not in a group and is in a group now, add it.
-    if($original_group == NULL && $node->field_group->entity != NULL) {
-        $node->field_group->entity->addContent($node, 'group_node:'.$node->bundle());
-    }
-    else if( $original_group != $node->field_group->entity->id() ){
-        // delete from the old group
-        if( $original_group != NULL ) {
-            $group_contents = \Drupal::entityTypeManager()
-                            ->getStorage('group_content')
-                            ->loadByProperties([ 
-                                'entity_id' => $node->id(),
-                                'gid' => $original_group,
-                            ]);
-            
-            foreach ($group_contents as $item) {
-                $item->delete();
-            }
-        }
-
-        // Get the group entity
-        $node->field_group->entity->addContent($node, 'group_node:'.$node->bundle());
-    }
 }
 
 /**
@@ -396,16 +364,21 @@ function portland_form_views_exposed_form_alter(&$form, &$form_state) {
 /**
  * Implements hook_form_alter().
  */
-//Idea borrowed from https://julian.pustkuchen.com/node/659
 function portland_form_alter(&$form, &$form_state, $form_id) {
+    // Create new node or edit a node
+    $form_array_with_group_field = ['node_event_edit_form', 'node_event_form',
+        'node_guide_edit_form', 'node_guide_form',
+        'node_information_edit_form', 'node_information_form',
+        'node_news_edit_form', 'node_news_form',
+        'node_city_service_edit_form', 'node_city_service_form'];
 
-    if($form_id == 'node_city_service_edit_form') {
+    if( in_array($form_id, $form_array_with_group_field) ) {
+        // Show all groups when the user is a site admin.
+        // Otherwise only show the groups the current user belongs to.
         $user_roles = \Drupal::currentUser()->getRoles();
-        // Only filter the group list if it's NOT a site admin
         if(!in_array("administrator", $user_roles)) {
             // GroupMembership[]
-            $loader = \Drupal::service('group.membership_loader');
-            $group_memberships = $loader->loadByUser();
+            $group_memberships = \Drupal::service('group.membership_loader')->loadByUser();
             $options = ['_none' => '- None -'];
             foreach( $group_memberships as $group_membership ) {
                 $group = $group_membership->getGroup();
@@ -416,14 +389,78 @@ function portland_form_alter(&$form, &$form_state, $form_id) {
 
         // Set the default value as the node's current group
         $node = $form_state->getFormObject()->getEntity();
-        $groupIDs = getGroupIdsByEntity($node);
-        if( count($groupIDs) == 0 ) {
-            $form["field_group"]["widget"]['#default_value'] = '_none';    
+
+        $group_id = NULL;
+        if($node->isNew()) {
+            if($form_state->getStorage()['group'] != NULL)
+                $group_id = $form_state->getStorage()['group']->id();
         }
         else {
-            $form["field_group"]["widget"]['#default_value'] = $groupIDs[0]; // assume only one parent group
+            $groupIDs = getGroupIdsByEntity($node);
+            $group_id = (count($groupIDs) > 0) ? $groupIDs[0] : NULL;
         }
+
+        if($form['field_group'] && $form["field_group"]["widget"]) {
+            if( $group_id == NULL ) {
+                $form["field_group"]["widget"]['#default_value'] = '_none';
+            }
+            else {
+                $form["field_group"]["widget"]['#default_value'] = $group_id; // assume only one parent group
+            }
+        }
+
+        $form['actions']['submit']['#submit'][] = 'portland_handle_group_update';
     }
+}
+
+function portland_handle_group_update($form, $form_state) {
+    $entity = $form_state->getFormObject()->getEntity();
+    $entity_type = $entity->bundle();
+
+    $bundle_array = ['event', 'information', 'guide', 'news', 'city_service'];
+
+    if( in_array($entity->bundle(), $bundle_array) ) {
+        $old_entity = \Drupal::entityTypeManager()->getStorage('node')->loadUnchanged($entity->id());
+
+        // The old "Parent Group" field may be empty even though the node is in a group.
+        $old_group_id = ($old_entity->field_group->entity == NULL) ? NULL : $old_entity->field_group->entity->id();
+
+        // Get the parent group ID from the group content table
+        $old_group_id_array = getGroupIdsByEntity($old_entity);
+        $old_group_id = (count($old_group_id_array) > 0) ? $old_group_id_array[0] : NULL;
+
+        // Special case: if the node's "Parent Group" field is empty BUT it belongs to a group, we need to add the node to the group to sync up the field value and the group content table.
+        // if( $entity->original->field_group->entity == NULL && $old_group_id != NULL) {
+        //     $old_group = \Drupal\group\Entity\Group::load($old_group_id);
+        //     $old_group->addContent($entity, 'group_node:'.$entity->bundle());
+        //     $entity->original->field_group->entity = $old_group;
+        // }
+
+        // Get the new parent group ID from the "Parent Group" field
+        $new_group_id = ($entity->field_group->entity != NULL) ? $entity->field_group->entity->id() : NULL;
+
+        // Only execute if the new and old groups are different
+        if( $old_group_id != $new_group_id ) {
+            // Delete from the old group
+            if( $old_group_id != NULL ) {
+                $group_contents = \Drupal::entityTypeManager()
+                                ->getStorage('group_content')
+                                ->loadByProperties([ 
+                                    'entity_id' => $entity->id(),
+                                    'gid' => $old_group_id,
+                                ]);
+                
+                foreach ($group_contents as $item) {
+                    $item->delete();
+                }
+            }
+
+            // Add to the new group
+            if( $new_group_id != NULL ) {
+                $entity->field_group->entity->addContent($entity, 'group_node:'.$entity->bundle());
+            }
+        }
+    }    
 }
 
 /*

@@ -10,3 +10,6 @@ dependencies:
   - 'groupmedia'
   - 'pathauto'
   - 'openid_connect'
+  - 'content_moderation'
+  - 'workflows'
+  - 'views_bulk_operations'

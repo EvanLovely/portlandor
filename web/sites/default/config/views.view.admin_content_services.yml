@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.storage.node.field_group
     - field.storage.paragraph.field_service_modes
     - node.type.city_service
     - taxonomy.vocabulary.audience
@@ -1903,25 +1904,27 @@ display:
           selected_actions:
             'entity:break_lock:node': 0
             'moderation_state_change:node': 'moderation_state_change:node'
-            node_unpublish_by_keyword_action: 0
-            node_make_sticky_action: 0
             node_promote_action: 0
+            node_unpromote_action: 0
+            node_unpublish_by_keyword_action: 0
             node_unpublish_action: 0
             node_save_action: 0
-            node_assign_owner_action: 0
-            node_make_unsticky_action: 0
-            node_unpromote_action: 0
             node_publish_action: 0
+            node_make_sticky_action: 0
+            node_make_unsticky_action: 0
+            node_assign_owner_action: 0
+            portland_archive_entity: portland_archive_entity
             portland_change_group: portland_change_group
             views_bulk_operations_delete_entity: views_bulk_operations_delete_entity
-            views_bulk_operations_example: 0
             pathauto_update_alias: pathauto_update_alias
-            'entity:delete_action:node': 'entity:delete_action:node'
-            'entity:unpublish_action:node': 0
             'entity:publish_action:node': 0
             'entity:save_action:node': 'entity:save_action:node'
+            'entity:unpublish_action:node': 0
+            'entity:delete_action:node': 'entity:delete_action:node'
           preconfiguration:
             'moderation_state_change:node':
+              label_override: ''
+            portland_archive_entity:
               label_override: ''
             portland_change_group:
               label_override: ''
@@ -1929,11 +1932,74 @@ display:
               label_override: ''
             pathauto_update_alias:
               label_override: ''
-            'entity:delete_action:node':
-              label_override: ''
             'entity:save_action:node':
               label_override: ''
+            'entity:delete_action:node':
+              label_override: ''
           plugin_id: views_bulk_operations_bulk_form
+        field_group:
+          id: field_group
+          table: node__field_group
+          field: field_group
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Group field'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
         title:
           id: title
           table: node_field_data
@@ -2294,4 +2360,6 @@ display:
         - user.permissions
       max-age: 0
       tags:
+        - 'config:field.storage.node.field_group'
         - 'config:workflow_list'
+        - extensions
