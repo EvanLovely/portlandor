@@ -1,3 +1,9 @@
+cloudy.media-breakpoint-down-xs:
+  label: media-breakpoint-down(xs)
+  mediaQuery: 'all and (max-width: 575px)'
+  weight: 1
+  multipliers:
+    - 1x
 cloudy.media-breakpoint-up-sm:
   label: media-breakpoint-up(sm)
   mediaQuery: 'all and (min-width: 576px)'
