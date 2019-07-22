@@ -8,11 +8,8 @@ source:
   keys:
     - TYPE_CODE
 process:
-  vid:
-    plugin: default_value
-    default_value: policy_type
   name: TYPE_NAME
-  field_type_code: TYPE_CODE
+  type_code: TYPE_CODE
   description: DESCRIPTION
 destination:
   plugin: 'entity:taxonomy_term'
