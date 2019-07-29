@@ -8,7 +8,7 @@ dependencies:
 migration_group: policies
 source:
   plugin: csv
-  path: modules/custom/portland_migrations/sources/policies_test_1.csv
+  path: modules/custom/portland_migrations/sources/policies_test.csv
   header_row_count: 1
   keys:
     - CONTENT_ID
