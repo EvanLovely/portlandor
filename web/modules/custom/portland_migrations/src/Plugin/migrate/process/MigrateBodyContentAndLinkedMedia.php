@@ -59,7 +59,8 @@ class MigrateBodyContentAndLinkedMedia extends ProcessPluginBase {
         // build filename/uri
         $filename = $this->buildPogFilename($url);
         // if buildPogFilename returns false, that means either the URL didn't have a
-        // Content-Disposition header (not a binary file), or the URL returned 404.
+        // Content-Disposition header (not a binary file), the URL returned 404, or it was
+        // a link to the homepage/root.
         if ($filename === false) {
           continue;
         }
@@ -67,23 +68,22 @@ class MigrateBodyContentAndLinkedMedia extends ProcessPluginBase {
 
         $media_type = $this->getMediaType($filename);
 
-        // create file if it doesn't exist. if it does exist, load existing.
-        if (!file_exists($destination_uri)) {
+        // create managed file if it doesn't exist. if it does exist, load existing. this returns an array.
+        $downloaded_file = \Drupal::entityTypeManager()->getStorage('file')->loadByProperties(['uri' => $destination_uri]);
+
+        if (!is_array($downloaded_file) || count($downloaded_file) < 1) {
+          // managed file does not exist, add it; this returns a single object
           try {
             $downloaded_file = system_retrieve_file($url, $destination_uri, TRUE);
           }
           catch (Exception $e) {
-            $message = "Error occurred while trying to download URL target at " . $url . ". Exception: " . $e->getMessage();
+            $message = "Error occurred while trying to download URL target at " . $url . " and create managed file. Exception: " . $e->getMessage();
             \Drupal::logger('portland_migrations')->notice($message);
           }
         } else {
-          $downloaded_file = \Drupal::entityTypeManager()->getStorage('file')->loadByProperties(['uri' => $destination_uri]);
-          if (is_array($downloaded_file)) {
-            $downloaded_file = reset($downloaded_file);
-          }
+          // managed file does exist, parse it out of the array
+          $downloaded_file = reset($downloaded_file);
         }
-
-        $file = \Drupal\file\Entity\File::load($downloaded_file->fid->value);
 
         // create media entity for file (image or document)
         if ($media_type == "document") {
@@ -94,7 +94,7 @@ class MigrateBodyContentAndLinkedMedia extends ProcessPluginBase {
             'name' => $link_text,
             'status' => 1,
             'field_document' => [
-              'target_id' => $file->id()
+              'target_id' => $downloaded_file->id()
             ],
           ]);
         } else if ($media_type == "image") {
@@ -105,7 +105,7 @@ class MigrateBodyContentAndLinkedMedia extends ProcessPluginBase {
             'name' => $link_text,
             'status' => 1,
             'image' => [
-              'target_id' => $file->id()
+              'target_id' => $downloaded_file->id()
             ],
           ]);
         }
@@ -153,7 +153,10 @@ class MigrateBodyContentAndLinkedMedia extends ProcessPluginBase {
     // get content id from URL, might be like /bts/38249 or /image.cfm?id=38249 or /shared/cfm/slb.cfm?id=38249 or /auditor/29194?a=256111
     // this is appended to filename to make sure it's unique.
     $content_id = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_FILENAME);
-    if (strtolower($content_id) == "image.cfm" || strtolower($content_id == "slb.cfm")) {
+    // return immediately if no content_id; that means no filename/invalid URL
+    if (!$content_id) return false;
+
+    if (strtolower($content_id) == "image" || strtolower($content_id == "slb")) {
       $querystr = parse_url($url, PHP_URL_QUERY);
       $queries = array();
       parse_str($querystr, $queries);
@@ -165,10 +168,10 @@ class MigrateBodyContentAndLinkedMedia extends ProcessPluginBase {
       if (isset($queries['a'])) {
         $content_id = $queries['a'];
       }
-      // need to re-get file
     }
 
-    // get name from Content-Disposition header
+    // get name from Content-Disposition header; if not there, that means this isn't
+    // a binary file URL, so we don't want it; return false.
     $headers = get_headers($url, 1);
     if (!isset($headers['Content-Disposition'])) {
       return false;
@@ -182,10 +185,20 @@ class MigrateBodyContentAndLinkedMedia extends ProcessPluginBase {
     $basename = preg_replace("/\.".$extension."/", "", $filename);
 
     if ($content_id == "image" || $content_id == "slb") {
-      return $basename . "." . $extension;
+      $final_filename = $basename . "." . $extension;
+    } else {
+      $final_filename = $basename . "-" . $content_id . "." . $extension;
     }
 
-    return $basename . "-" . $content_id . "." . $extension;
+    // replace underscores with hypens
+    $final_filename = preg_replace('/_/', '-', $final_filename);
+    
+    // transliterate filename to remove spaces, punctuation, illegal characters
+    if (function_exists("transliterate_filenames_transliteration")) {
+      $final_filename = transliterate_filenames_transliteration($final_filename);
+    }
+
+    return $final_filename;
   }
 
   protected function getMediaType($filename) {
