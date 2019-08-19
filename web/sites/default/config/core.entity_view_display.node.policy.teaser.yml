@@ -31,6 +31,8 @@ hidden:
   field_documents: true
   field_legacy_path: true
   field_policy_category: true
+  field_policy_number: true
   field_policy_type: true
   field_reviewer: true
+  group_content: true
   links: true
