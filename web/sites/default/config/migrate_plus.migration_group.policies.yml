@@ -1,0 +1,10 @@
+uuid: f0e0430a-6df8-437c-9678-9eefea3cc109
+langcode: en
+status: true
+dependencies: {  }
+id: policies
+label: policies
+description: ''
+source_type: null
+module: null
+shared_configuration: null

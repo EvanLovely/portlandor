@@ -1,0 +1,10 @@
+uuid: e4aa661d-dec4-4479-b6fb-1833249dfe76
+langcode: en
+status: true
+dependencies: {  }
+id: city_charter
+label: city_charter
+description: ''
+source_type: null
+module: null
+shared_configuration: null
