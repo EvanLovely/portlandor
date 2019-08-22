@@ -6,12 +6,13 @@ source:
   path: modules/custom/portland_migrations/sources/policies_categories.csv
   header_row_count: 1
   keys:
-    - CATEGORY_NAME
+    - CATEGORY
 process:
   vid:
     plugin: default_value
     default_value: policy_category
-  name: CATEGORY_NAME
+  name: CATEGORY
+  field_category_abbreviation: CODE
 destination:
   plugin: 'entity:taxonomy_term'
   default_bundle: policy_category

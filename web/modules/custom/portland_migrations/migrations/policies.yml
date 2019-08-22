@@ -36,8 +36,10 @@ process:
     plugin: link_policy_type
     source: POLICY_NUMBER
   field_policy_catetory:
-    plugin: link_policy_category
-    source: CATEGORY_NAME
+    plugin: migrate_policy_categories
+    source:
+      - CATEGORY_NAME
+      - POLICY_NUMBER
 destination:
   plugin: 'entity:node'
   default_bundle: policy
