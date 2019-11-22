@@ -9,7 +9,6 @@ dependencies:
     - field.field.node.event.field_display_groups
     - field.field.node.event.field_end_date
     - field.field.node.event.field_end_time
-    - field.field.node.event.field_event_location
     - field.field.node.event.field_featured_media
     - field.field.node.event.field_location
     - field.field.node.event.field_neighborhood
@@ -28,7 +27,6 @@ dependencies:
     - conditional_fields
     - content_moderation
     - entity_browser
-    - paragraphs
     - text
     - time_field
 id: node.event.default
@@ -148,18 +146,6 @@ content:
           entity_type: node
           bundle: event
     type: time_widget
-    region: content
-  field_event_location:
-    type: entity_reference_paragraphs
-    weight: 19
-    settings:
-      title: location
-      title_plural: locations
-      edit_mode: open
-      add_mode: dropdown
-      form_display_mode: default
-      default_paragraph_type: _none
-    third_party_settings: {  }
     region: content
   field_featured_media:
     type: entity_browser_entity_reference
